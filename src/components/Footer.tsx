@@ -1,7 +1,8 @@
 import Image from "next/image";
-import { GitFork, Share2, Link2, Rss } from "lucide-react";
+import { GitFork, Share2, Link2, Rss, Facebook } from "lucide-react";
 
 const socials = [
+  { icon: Facebook, label: "Facebook", href: "https://www.facebook.com/profile.php?id=61572607197768" },
   { icon: GitFork, label: "GitHub", href: "#" },
   { icon: Share2, label: "Twitter / X", href: "#" },
   { icon: Link2, label: "LinkedIn", href: "#" },

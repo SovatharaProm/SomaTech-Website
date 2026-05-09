@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Mail, Send, MapPin, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import emailjs from "@emailjs/browser";
 
 function useReveal(delay = 0) {
   const ref = useRef<HTMLDivElement>(null);
@@ -32,20 +33,44 @@ function useReveal(delay = 0) {
 }
 
 const contactItems = [
-  { icon: Mail, label: "Email", value: "hello@somatech.io", href: "mailto:hello@somatech.io" },
+  { icon: Mail, label: "Email", value: "somatech18@gmail.com", href: "mailto:somatech18@gmail.com" },
   { icon: MapPin, label: "Location", value: "Phnom Penh, Cambodia", href: null },
-  { icon: ExternalLink, label: "Social", value: "@somatech", href: "#" },
+  { icon: ExternalLink, label: "Social", value: "Facebook", href: "https://www.facebook.com/profile.php?id=61572607197768" },
 ];
+
+const SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!;
+const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!;
+const PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!;
 
 export default function ContactSection() {
   const leftRef = useReveal();
   const rightRef = useReveal(100);
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSent(true);
+    setLoading(true);
+    setError("");
+    try {
+      await emailjs.send(
+        SERVICE_ID,
+        TEMPLATE_ID,
+        {
+          from_name: form.name,
+          from_email: form.email,
+          message: form.message,
+        },
+        PUBLIC_KEY
+      );
+      setSent(true);
+    } catch {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const inputClass =
@@ -162,12 +187,16 @@ export default function ContactSection() {
                       className={inputClass + " resize-none"}
                     />
                   </div>
+                  {error && (
+                    <p className="text-red-400 text-sm text-center">{error}</p>
+                  )}
                   <Button
                     type="submit"
-                    className="w-full bg-[#60a5fa] hover:bg-[#3b82f6] text-[#0d1420] font-semibold h-12 tracking-wide transition-all duration-200 shadow-lg shadow-blue-500/20"
+                    disabled={loading}
+                    className="w-full bg-[#60a5fa] hover:bg-[#3b82f6] text-[#0d1420] font-semibold h-12 tracking-wide transition-all duration-200 shadow-lg shadow-blue-500/20 disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    Send Message
-                    <Send className="ml-2 h-4 w-4" />
+                    {loading ? "Sending..." : "Send Message"}
+                    {!loading && <Send className="ml-2 h-4 w-4" />}
                   </Button>
                 </form>
               )}
