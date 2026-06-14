@@ -3,6 +3,7 @@ import HeroSection from "@/components/HeroSection";
 import MarqueeTicker from "@/components/MarqueeTicker";
 import AboutSection from "@/components/AboutSection";
 import WhatWeDoSection from "@/components/WhatWeDoSection";
+import ProductsSection from "@/components/ProductsSection";
 import MissionSection from "@/components/MissionSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
@@ -15,6 +16,7 @@ export default function Home() {
       <MarqueeTicker />
       <AboutSection />
       <WhatWeDoSection />
+      <ProductsSection />
       <MissionSection />
       <ContactSection />
       <Footer />
