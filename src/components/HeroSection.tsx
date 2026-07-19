@@ -1,10 +1,49 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import CircuitBackground from "./CircuitBackground";
+
+const rotatingWords = [
+  "Smart Solutions",
+  "Business Websites",
+  "Web Applications",
+  "Digital Products",
+];
+
+function Typewriter() {
+  const [wordIndex, setWordIndex] = useState(0);
+  const [text, setText] = useState("");
+  const [deleting, setDeleting] = useState(false);
+
+  useEffect(() => {
+    const word = rotatingWords[wordIndex];
+    let delay = deleting ? 40 : 75;
+    if (!deleting && text === word) delay = 2000;
+    else if (deleting && text === "") delay = 350;
+
+    const timer = setTimeout(() => {
+      if (!deleting && text === word) {
+        setDeleting(true);
+      } else if (deleting && text === "") {
+        setDeleting(false);
+        setWordIndex((i) => (i + 1) % rotatingWords.length);
+      } else {
+        setText(word.slice(0, text.length + (deleting ? -1 : 1)));
+      }
+    }, delay);
+    return () => clearTimeout(timer);
+  }, [text, deleting, wordIndex]);
+
+  return (
+    <span className="gradient-text">
+      {text || " "}
+      <span className="typing-caret" aria-hidden />
+    </span>
+  );
+}
 
 export default function HeroSection() {
   const ref = useRef<HTMLDivElement>(null);
@@ -39,7 +78,7 @@ export default function HeroSection() {
 
         {/* Headline */}
         <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-[82px] font-bold leading-[1.06] tracking-tight mb-6">
-          <span className="gradient-text">Smart Solutions</span>
+          <Typewriter />
           <br />
           <span className="text-white">for Modern Businesses</span>
         </h1>

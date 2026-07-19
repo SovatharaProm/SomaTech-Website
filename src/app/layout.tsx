@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Kantumruy_Pro } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -7,6 +7,13 @@ const inter = Inter({
   variable: "--font-inter",
   display: "swap",
   weight: ["300", "400", "500", "600", "700", "800"],
+});
+
+const kantumruy = Kantumruy_Pro({
+  subsets: ["khmer", "latin"],
+  variable: "--font-kantumruy",
+  display: "swap",
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -27,7 +34,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} h-full`}>
+    <html lang="en" className={`${inter.variable} ${kantumruy.variable} h-full`}>
       <body className="min-h-full flex flex-col bg-[#0d1420] text-white antialiased">
         {children}
       </body>
