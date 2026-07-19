@@ -4,12 +4,6 @@ import Link from "next/link";
 import { Reveal, Counter, ReviewSlider, BookingForm } from "@/lib/demo-ui";
 import { useDemoLang, type Txt } from "@/lib/demo-theme";
 
-/*
- * Professional, flat (no-gradient), fully light/dark + EN/KH demo kit.
- * Every text prop accepts a plain string or { en, km } and is resolved
- * against the demo's current language.
- */
-
 const soft = (pct = 12) => `color-mix(in srgb, var(--accent) ${pct}%, transparent)`;
 
 /** Inline bilingual text. */
